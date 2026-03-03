@@ -551,7 +551,7 @@ pub fn build(b: *std.Build) !void {
     }
 
     if (use_librtmp) {
-        curl.linkSystemLibrary("rtmp");
+        curl.root_module.linkSystemLibrary("rtmp", .{});
         if (target.result.os.tag == .windows) curl.root_module.linkSystemLibrary("winmm", .{});
     }
 
@@ -942,7 +942,7 @@ pub fn build(b: *std.Build) !void {
         .HAVE_SSL_SET1_ECH_CONFIG_LIST = null, // TODO
         .HAVE_DES_ECB_ENCRYPT = false, // TODO
     });
-    curl.addConfigHeader(curl_config);
+    curl.root_module.addConfigHeader(curl_config);
     exe.root_module.addConfigHeader(curl_config);
 
     // b.getInstallStep().dependOn(&b.addInstallHeaderFile(curl_config.getOutput(), "curl_config.h").step);
