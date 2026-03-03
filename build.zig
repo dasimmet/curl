@@ -248,9 +248,6 @@ pub fn build(b: *std.Build) !void {
         }
     }
 
-    if (target.result.os.tag == .aix) {
-        curl.root_module.addCMacro("_ALL_SOURCE", "1");
-    }
     if (target.result.os.tag == .haiku) {
         curl.root_module.linkSystemLibrary("network", .{});
     }
@@ -679,7 +676,6 @@ pub fn build(b: *std.Build) !void {
             .dragonfly,
             .netbsd,
             .freebsd,
-            .solaris,
             .openbsd,
             .macos,
             .ios,
