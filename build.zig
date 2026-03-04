@@ -684,7 +684,6 @@ pub fn build(b: *std.Build) !void {
             .visionos,
             .wasi,
             => true,
-            .linux => target.result.abi.isGnu() and target.result.os.isAtLeast(.linux, .{ .major = 2, .minor = 36, .patch = 0 }) orelse false,
             else => false,
         },
         .HAVE_ARPA_INET_H = target.result.os.tag != .windows,
@@ -742,7 +741,7 @@ pub fn build(b: *std.Build) !void {
         .HAVE_GETPWUID_R = target.result.os.tag != .windows and target.result.os.tag != .wasi,
         .HAVE_GETRLIMIT = target.result.os.tag != .windows and target.result.os.tag != .wasi,
         .HAVE_GETTIMEOFDAY = true,
-        .HAVE_GLIBC_STRERROR_R = target.result.isGnuLibC(),
+        .HAVE_GLIBC_STRERROR_R = false, // TODO why not target.result.isGnuLibC()?
         .HAVE_GMTIME_R = target.result.os.tag != .windows,
         .HAVE_GSSAPI = null,
         .HAVE_GSSGNU = null,
@@ -800,7 +799,7 @@ pub fn build(b: *std.Build) !void {
         .HAVE_POLL_H = target.result.os.tag != .windows,
         .HAVE_POSIX_STRERROR_R = switch (target.result.os.tag) {
             .windows => false,
-            .linux => target.result.isMuslLibC(),
+            .linux => true, // TODO why not target.result.isMuslLibC()?
             else => true,
         },
         .HAVE_PWD_H = target.result.os.tag != .windows,
